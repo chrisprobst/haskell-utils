@@ -5,10 +5,11 @@ import Data.Maybe
 (.:) = (.) . (.)
 
 
-move :: [[Maybe a]] -> (Int, Int) -> (Int, Int) -> [[Maybe a]]
-move board (x, y) (x2, y2) = fullMat
+move :: [[Maybe a]] -> (Int, Int) -> (Int, Int) -> ([[Maybe a]], Maybe a)
+move board (x, y) (x2, y2) = rmElem `seq` (fullMat, rmElem)
   where
     elem = (board !! y) !! x
+    rmElem = (board !! y2) !! x2
     fullMat = replace y2 fullRow emptyMat
     fullRow = replace x2 elem (emptyMat !! y2)
     emptyMat = replace y emptyRow board
